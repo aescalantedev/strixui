@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
+import { cookies } from "next/headers";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { AppTopbar } from "@/components/layout/AppTopbar";
@@ -14,16 +15,19 @@ export const metadata: Metadata = {
   description: "Next.js 16 + Tailwind v4 + shadcn/ui Dashboard Template",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const defaultOpen = cookieStore.get("sidebar:state")?.value === "true";
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} antialiased selection:bg-primary/10 selection:text-primary`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <SidebarProvider>
+          <SidebarProvider defaultOpen={defaultOpen}>
             <div className="flex min-h-screen w-full bg-background">
               {/* Sidebar persistente */}
               <AppSidebar />
