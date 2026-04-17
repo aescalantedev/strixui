@@ -22,9 +22,10 @@ export default async function RootLayout({
 }>) {
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get("sidebar:state")?.value === "true";
+  const colorTheme = cookieStore.get("strix-color-theme")?.value || "";
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning data-color-theme={colorTheme}>
       <body className={`${inter.className} antialiased selection:bg-primary/10 selection:text-primary`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SidebarProvider defaultOpen={defaultOpen}>

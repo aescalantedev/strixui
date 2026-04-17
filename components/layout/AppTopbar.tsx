@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
+import { ThemeColorToggle } from "@/components/theme-color-toggle";
+
 export function AppTopbar() {
   const { setTheme, theme } = useTheme();
 
@@ -37,6 +39,9 @@ export function AppTopbar() {
         </div>
 
         <div className="ml-auto flex items-center gap-2">
+          {/* Selector de Color de Tema */}
+          <ThemeColorToggle />
+
           {/* Botón Theme Toggle */}
           <Button 
             variant="ghost" 
@@ -44,14 +49,14 @@ export function AppTopbar() {
             className="rounded-full"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
-            <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-            <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <Sun className="h-5 w-5 text-muted-foreground rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-5 w-5 text-muted-foreground rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
             <span className="sr-only">Toggle theme</span>
           </Button>
 
           {/* Botón Notificaciones */}
           <Button variant="ghost" size="icon" className="rounded-full relative">
-             <Bell className="h-5 w-5" />
+             <Bell className="h-5 w-5 text-muted-foreground" />
              <span className="absolute top-2 right-2 h-2 w-2 bg-red-500 rounded-full border-2 border-background" />
           </Button>
 

@@ -128,3 +128,29 @@
     @apply font-sans;
   }
 }
+
+/* --- THEME VARIANTS (DATA ATTRIBUTE SYSTEM) --- */
+
+[data-color-theme='blue'] {
+  --primary: oklch(0.588 0.158 241.966) !important;
+  --primary-foreground: oklch(0.985 0 0) !important;
+  --ring: oklch(0.588 0.158 241.966) !important;
+  --sidebar-primary: oklch(0.588 0.158 241.966) !important;
+  --sidebar-primary-foreground: oklch(0.985 0 0) !important;
+}
+
+[data-color-theme='orange'] {
+  --primary: oklch(0.645 0.187 47.608) !important;
+  --primary-foreground: oklch(0.985 0 0) !important;
+  --ring: oklch(0.645 0.187 47.608) !important;
+  --sidebar-primary: oklch(0.645 0.187 47.608) !important;
+  --sidebar-primary-foreground: oklch(0.985 0 0) !important;
+}
+
+[data-color-theme='green'] {
+  --primary: oklch(0.627 0.194 149.214) !important;
+  --primary-foreground: oklch(0.985 0 0) !important;
+  --ring: oklch(0.627 0.194 149.214) !important;
+  --sidebar-primary: oklch(0.627 0.194 149.214) !important;
+  --sidebar-primary-foreground: oklch(0.985 0 0) !important;
+}
