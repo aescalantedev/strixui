@@ -72,8 +72,8 @@ const navigationGroups = [
         url: "#",
         items: [
           { title: "List", url: "/users", icon: Users },
-          { title: "Roles", url: "/roles", icon: ShieldCheck },
-          { title: "Add User", url: "/users/new", icon: UserPlus },
+          { title: "Roles", url: "/users/roles", icon: ShieldCheck },
+          { title: "Add User", url: "/users/add", icon: UserPlus },
         ]
       },
       { title: "Messages", url: "/messages", icon: MessagesSquare },
