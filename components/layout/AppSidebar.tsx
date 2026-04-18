@@ -20,11 +20,15 @@ import {
   UserPlus,
   AlertCircle,
   FileWarning,
-  Lock,
-  UserCircle,
-  Shapes
-} from "lucide-react";
-
+  Lock, 
+  UserCircle, 
+  Shapes,
+  LayoutTemplate,
+  PanelTop,
+  TextCursorInput,
+  Table,
+  BarChart3
+  } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -82,9 +86,12 @@ const navigationGroups = [
   {
     label: "UI Showroom",
     items: [
-      { title: "Base UI", url: "/components/base", icon: Component },
-      { title: "Advanced Data", url: "/components/data", icon: Shapes },
-      { title: "Forms & Inputs", url: "/components/forms", icon: Layout },
+      { title: "Base UI", url: "/components/base", icon: LayoutTemplate },
+      { title: "Cards & Widgets", url: "/components/cards", icon: PanelTop },
+      { title: "Forms & Inputs", url: "/components/forms", icon: TextCursorInput },
+      { title: "Advanced Tables", url: "/components/tables", icon: Table },
+      { title: "Charts & Graphs", url: "/components/charts", icon: BarChart3 },
+      { title: "Icons", url: "/components/icons", icon: Shapes },
     ],
   },
   {
