@@ -5,11 +5,14 @@ import * as RechartsPrimitive from "recharts"
 
 import { cn } from "@/lib/utils"
 
+const THEMES = { light: "", dark: ".dark" } as const
+
 type ChartConfig = {
   [k in string]: {
     label?: React.ReactNode
     icon?: React.ComponentType
     color?: string
+    theme?: Record<keyof typeof THEMES, string>
   }
 }
 
@@ -38,14 +41,31 @@ const ChartContainer = React.forwardRef<
 >(({ id, className, children, config, ...props }, ref) => {
   const uniqueId = React.useId()
   const chartId = `chart-${id || uniqueId.replace(/:/g, "")}`
+  
+  // SOLUCIÓN "ZERO-WARNING": Medición real del contenedor
+  const containerRef = React.useRef<HTMLDivElement>(null)
+  const [dimensions, setDimensions] = React.useState({ width: 0, height: 0 })
 
-  // Inyectamos las variables de color directamente en el estilo del div
+  React.useLayoutEffect(() => {
+    if (!containerRef.current) return
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (!entries[0]) return
+      const { width, height } = entries[0].contentRect
+      if (width > 0 && height > 0) {
+        setDimensions({ width, height })
+      }
+    })
+
+    resizeObserver.observe(containerRef.current)
+    return () => resizeObserver.disconnect()
+  }, [])
+
   const style = React.useMemo(() => {
     const customStyle: Record<string, string> = {}
     Object.entries(config).forEach(([key, item]) => {
-      if (item.color) {
-        customStyle[`--color-${key}`] = item.color
-      }
+      const color = item.theme?.light || item.color
+      if (color) customStyle[`--color-${key}`] = color
     })
     return customStyle
   }, [config])
@@ -53,25 +73,58 @@ const ChartContainer = React.forwardRef<
   return (
     <ChartContext.Provider value={{ config }}>
       <div
-        ref={ref}
+        ref={containerRef}
         data-chart={chartId}
         style={{ ...style, ...props.style } as React.CSSProperties}
         className={cn(
-          "flex justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-area]:fill-opacity-10 [&_.recharts-curve.recharts-area]:stroke-[2] [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-grid-line]:stroke-border/50 [&_.recharts-label]:fill-foreground [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-none [&_.recharts-surface]:outline-none",
+          "relative w-full text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-area]:fill-opacity-10 [&_.recharts-curve.recharts-area]:stroke-[2] [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-grid-line]:stroke-border/50 [&_.recharts-label]:fill-foreground [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-none [&_.recharts-surface]:outline-none",
           className
         )}
         {...props}
       >
-        <div className="h-full w-full min-h-0 min-w-0">
-          <RechartsPrimitive.ResponsiveContainer width="100%" height="100%">
-            {children}
-          </RechartsPrimitive.ResponsiveContainer>
+        <ChartStyle id={chartId} config={config} />
+        <div className="h-full w-full absolute inset-0 min-h-0 min-w-0">
+          {dimensions.width > 0 && dimensions.height > 0 ? (
+            <RechartsPrimitive.ResponsiveContainer width="100%" height="100%">
+              {children}
+            </RechartsPrimitive.ResponsiveContainer>
+          ) : (
+            <div className="h-full w-full bg-muted/5 animate-pulse rounded-xl" />
+          )}
         </div>
       </div>
     </ChartContext.Provider>
   )
 })
 ChartContainer.displayName = "Chart"
+
+const ChartStyle = ({ id, config }: { id: string; config: ChartConfig }) => {
+  const colorConfig = Object.entries(config).filter(
+    ([, config]) => config.theme || config.color
+  )
+  if (!colorConfig.length) return null
+
+  return (
+    <style
+      dangerouslySetInnerHTML={{
+        __html: Object.entries(THEMES)
+          .map(
+            ([theme, prefix]) => `
+${prefix} [data-chart=${id}] {
+${colorConfig
+  .map(([key, itemConfig]) => {
+    const color = itemConfig.theme?.[theme as keyof typeof THEMES] || itemConfig.color
+    return color ? `  --color-${key}: ${color};` : null
+  })
+  .join("\n")}
+}
+`
+          )
+          .join("\n"),
+      }}
+    />
+  )
+}
 
 const ChartTooltip = RechartsPrimitive.Tooltip
 
@@ -104,10 +157,7 @@ const ChartTooltipContent = React.forwardRef<
     ref
   ) => {
     const { config } = useChart()
-
-    if (!active || !payload?.length) {
-      return null
-    }
+    if (!active || !payload?.length) return null
 
     return (
       <div
@@ -118,40 +168,25 @@ const ChartTooltipContent = React.forwardRef<
         )}
       >
         <div className="grid gap-1.5">
-          {payload.map((item, index) => {
+          {payload.map((item) => {
             const key = `${nameKey || item.name || item.dataKey || "value"}`
             const itemConfig = config[key as keyof typeof config]
             const indicatorColor = color || item.payload.fill || item.color
 
             return (
-              <div
-                key={item.dataKey}
-                className={cn(
-                  "flex w-full flex-wrap items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground",
-                  indicator === "dot" && "items-center"
-                )}
-              >
+              <div key={item.dataKey} className="flex w-full flex-wrap items-center gap-2">
                 <div
                   className={cn(
-                    "shrink-0 rounded-[2px] border-[--color-border] bg-[--color-bg]",
+                    "shrink-0 rounded-[2px]",
                     {
-                      "h-2.5 w-2.5": indicator === "dot",
-                      "w-1": indicator === "line",
-                      "w-0 border-l-2 border-dashed bg-transparent":
-                        indicator === "dashed",
+                      "h-2 w-2": indicator === "dot",
+                      "w-1 h-3": indicator === "line",
                     }
                   )}
-                  style={
-                    {
-                      "--color-bg": indicatorColor,
-                      "--color-border": indicatorColor,
-                    } as React.CSSProperties
-                  }
+                  style={{ backgroundColor: indicatorColor }}
                 />
                 <div className="flex flex-1 justify-between leading-none items-center">
-                  <span className="text-muted-foreground">
-                    {itemConfig?.label || item.name}
-                  </span>
+                  <span className="text-muted-foreground">{itemConfig?.label || item.name}</span>
                   {item.value && (
                     <span className="font-mono font-medium tabular-nums text-foreground ml-2">
                       {item.value.toLocaleString()}
@@ -172,4 +207,5 @@ export {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
+  ChartStyle,
 }

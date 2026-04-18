@@ -23,8 +23,7 @@ import {
   Pie,
   PieChart,
   Cell,
-  Label,
-  ResponsiveContainer
+  Label
 } from "recharts";
 
 import { 
@@ -39,14 +38,6 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
-import { 
   ChartContainer, 
   ChartTooltip, 
   ChartTooltipContent 
@@ -59,6 +50,8 @@ import {
   recentActivity 
 } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
+
+import { RecentTransactionsTable } from "@/components/dashboard/recent-transactions-table";
 
 const kpiIcons = [DollarSign, Users, TrendingUp, Activity];
 
@@ -120,7 +113,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* SECTION B: REFINED KPI GRID */}
+      {/* SECTION B: KPI GRID */}
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {kpiData.map((kpi, index) => {
           const Icon = kpiIcons[index];
@@ -162,10 +155,10 @@ export default function DashboardPage() {
             </div>
             <Button variant="ghost" size="icon" className="rounded-full h-8 w-8"><MoreVertical className="h-4 w-4 text-muted-foreground" /></Button>
           </CardHeader>
-          <CardContent className="px-2 sm:px-6">
+          <CardContent className="px-2 sm:px-6 h-[400px]">
             <ChartContainer 
               config={{ sales: { label: "Sales", color: "var(--primary)" } }}
-              className="h-[380px] w-full"
+              className="h-full w-full"
             >
               <AreaChart data={performanceData} margin={{ left: 12, right: 12, top: 12 }}>
                 <defs>
@@ -184,7 +177,6 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        {/* --- TRAFFIC SOURCES CARD (FIXED COLORS) --- */}
         <Card className="lg:col-span-4 border-border/40 shadow-sm rounded-2xl overflow-hidden flex flex-col">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg font-black uppercase tracking-tight">Traffic Sources</CardTitle>
@@ -198,7 +190,7 @@ export default function DashboardPage() {
                 referral: { label: "Referral", color: "var(--chart-3)" },
                 ads: { label: "Ads", color: "var(--chart-4)" },
               }}
-              className="h-[250px] w-full"
+              className="h-[280px] w-full"
             >
               <PieChart>
                 <Pie
@@ -211,11 +203,9 @@ export default function DashboardPage() {
                   dataKey="value"
                   nameKey="name"
                 >
-                  {/* Celdas con relleno dinámico desde variables inline */}
                   {trafficChartData.map((entry, index) => (
                     <Cell key={`cell-${index}`} fill={entry.fill} stroke="transparent" />
                   ))}
-
                   <Label
                     content={({ viewBox }) => {
                       if (viewBox && "cx" in viewBox && "cy" in viewBox) {
@@ -266,7 +256,7 @@ export default function DashboardPage() {
         </Card>
       </div>
 
-      {/* SECTION D: LOWER DATA */}
+      {/* SECTION D: DATA TABLE & ACTIVITY */}
       <div className="grid gap-6 lg:grid-cols-12">
         <Card className="lg:col-span-7 border-border/40 shadow-sm rounded-2xl overflow-hidden">
           <CardHeader className="flex flex-row items-center justify-between pb-6">
@@ -274,39 +264,9 @@ export default function DashboardPage() {
               <CardTitle className="text-lg font-black uppercase tracking-tight">Recent Transactions</CardTitle>
               <CardDescription className="text-xs font-bold uppercase tracking-tighter opacity-60">Financial activity</CardDescription>
             </div>
-            <Button variant="secondary" size="sm" className="rounded-xl h-8 px-4 text-[9px] font-black uppercase tracking-[0.2em]">View All</Button>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader className="bg-secondary/20 border-none">
-                <TableRow className="border-none hover:bg-transparent">
-                  <TableHead className="font-black text-[9px] uppercase tracking-widest opacity-50">Customer</TableHead>
-                  <TableHead className="font-black text-[9px] uppercase tracking-widest opacity-50">Status</TableHead>
-                  <TableHead className="font-black text-[9px] uppercase tracking-widest opacity-50">Date</TableHead>
-                  <TableHead className="font-black text-[9px] uppercase tracking-widest text-right opacity-50">Amount</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {recentTransactions.map((tx) => (
-                  <TableRow key={tx.id} className="hover:bg-secondary/20 transition-colors border-border/30 h-14">
-                    <TableCell>
-                      <div className="font-black text-sm tracking-tight">{tx.customer}</div>
-                      <div className="text-[9px] text-muted-foreground uppercase font-bold tracking-tighter opacity-50">{tx.id}</div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge className={cn(
-                        "rounded-md px-2 py-0.5 text-[8px] font-black uppercase tracking-tighter border-none",
-                        tx.status === "Paid" ? "bg-emerald-500/10 text-emerald-600" : tx.status === "Pending" ? "bg-orange-500/10 text-orange-600" : "bg-rose-500/10 text-rose-600"
-                      )}>
-                        {tx.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="text-[10px] font-bold text-muted-foreground uppercase opacity-70">{tx.date}</TableCell>
-                    <TableCell className="text-right font-black text-sm tracking-tight">{tx.amount}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <RecentTransactionsTable data={recentTransactions as any} />
           </CardContent>
         </Card>
 

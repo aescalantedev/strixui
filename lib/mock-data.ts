@@ -90,3 +90,39 @@ export const recentActivity = [
     avatar: "https://github.com/shadcn.png",
   },
 ];
+
+/* --- ANALYTICS SPECIFIC DATA --- */
+
+export const demographicsData = [
+  { subject: "18-24", desktop: 120, mobile: 110, fullMark: 150 },
+  { subject: "25-34", desktop: 140, mobile: 130, fullMark: 150 },
+  { subject: "35-44", desktop: 110, mobile: 150, fullMark: 150 },
+  { subject: "45-54", desktop: 99, mobile: 100, fullMark: 150 },
+  { subject: "55-64", desktop: 85, mobile: 90, fullMark: 150 },
+  { subject: "65+", desktop: 65, mobile: 85, fullMark: 150 },
+];
+
+export const weeklyConversionsData = [
+  { day: "Mon", direct: 40, social: 24, email: 24 },
+  { day: "Tue", direct: 30, social: 13, email: 22 },
+  { day: "Wed", direct: 20, social: 38, email: 33 },
+  { day: "Thu", direct: 27, social: 39, email: 20 },
+  { day: "Fri", direct: 18, social: 48, email: 21 },
+  { day: "Sat", direct: 23, social: 38, email: 29 },
+  { day: "Sun", direct: 34, social: 43, email: 34 },
+];
+
+export const annualTrendData = [
+  { month: "Jan", traffic: 4000, bounceRate: 45 },
+  { month: "Feb", traffic: 3000, bounceRate: 42 },
+  { month: "Mar", traffic: 5000, bounceRate: 38 },
+  { month: "Apr", traffic: 4500, bounceRate: 40 },
+  { month: "May", traffic: 6000, bounceRate: 35 },
+  { month: "Jun", traffic: 5500, bounceRate: 37 },
+  { month: "Jul", traffic: 7000, bounceRate: 30 },
+  { month: "Aug", traffic: 7500, bounceRate: 28 },
+  { month: "Sep", traffic: 6800, bounceRate: 32 },
+  { month: "Oct", traffic: 8000, bounceRate: 25 },
+  { month: "Nov", traffic: 8500, bounceRate: 22 },
+  { month: "Dec", traffic: 9000, bounceRate: 20 },
+];
