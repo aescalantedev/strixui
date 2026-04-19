@@ -1,13 +1,10 @@
 "use client";
 
-import * as React from "react";
 import { 
   ShieldCheck, 
   Shield, 
   Eye, 
   Plus, 
-  MoreHorizontal,
-  Users,
   Lock,
   ChevronRight
 } from "lucide-react";

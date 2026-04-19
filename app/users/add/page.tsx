@@ -2,14 +2,12 @@
 
 import * as React from "react";
 import { 
-  UserPlus, 
   Mail, 
   Phone, 
   User as UserIcon, 
   ShieldCheck, 
   Lock, 
   ArrowLeft,
-  Check,
   Info,
   BadgeCheck,
   ShieldAlert,

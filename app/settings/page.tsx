@@ -1,13 +1,11 @@
 "use client";
 
-import * as React from "react";
 import { 
   User, 
   Settings, 
   Monitor, 
   Bell, 
   Layout, 
-  Globe, 
   Plus, 
   Trash2, 
   Camera,
