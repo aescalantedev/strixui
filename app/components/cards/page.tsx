@@ -19,6 +19,7 @@ import {
   Plus,
   CreditCard,
   Zap,
+  ChevronLeft,
   ChevronRight,
   Github,
   Mail
@@ -235,7 +236,7 @@ export default function CardsPage() {
          {/* Calendar Widget */}
          <Card className="border-border/40 shadow-sm rounded-2xl overflow-hidden lg:col-span-2">
             <CardContent className="p-0 flex flex-col md:flex-row">
-               <div className="p-6 md:border-r border-border/30 bg-secondary/5 shrink-0 flex flex-col justify-between">
+               <div className="p-6 md:border-r border-border/30 bg-secondary/5 shrink-0 flex flex-col justify-between w-full md:w-64">
                   <div className="space-y-1">
                      <h4 className="text-2xl font-black uppercase tracking-tight text-primary">May 2026</h4>
                      <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest opacity-60">System Calendar</p>
@@ -250,15 +251,50 @@ export default function CardsPage() {
                         <span className="text-[10px] font-bold uppercase tracking-tight">V2 Launch</span>
                      </div>
                   </div>
-                  <Button className="mt-8 rounded-xl h-10 text-[10px] font-black uppercase bg-primary text-primary-foreground">Add Event</Button>
+                  <Button className="mt-8 rounded-xl h-10 text-[10px] font-black uppercase bg-primary text-primary-foreground shadow-lg shadow-primary/20">Add Event</Button>
                </div>
-               <div className="flex-1 flex items-center justify-center p-2">
-                  <Calendar
-                    mode="single"
-                    selected={date}
-                    onSelect={setDate}
-                    className="w-full"
-                  />
+               <div className="flex-1 p-8 bg-background flex flex-col justify-center">
+                  <div className="flex items-center justify-between mb-8 px-2">
+                    <span className="text-sm font-black uppercase tracking-[0.3em]">May 2026</span>
+                    <div className="flex gap-2">
+                        <Button variant="outline" size="icon" className="h-7 w-7 rounded-lg border-border/50"><ChevronLeft className="h-3 w-3" /></Button>
+                        <Button variant="outline" size="icon" className="h-7 w-7 rounded-lg border-border/50"><ChevronRight className="h-3 w-3" /></Button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-7 gap-2 mb-4 text-center">
+                    {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                      <div key={day} className="text-[10px] font-black uppercase text-muted-foreground/40 tracking-widest">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="grid grid-cols-7 gap-2 text-center">
+                    {[...Array(5)].map((_, i) => <div key={`empty-${i}`} className="h-9 w-9" />)}
+                    
+                    {[...Array(31)].map((_, i) => {
+                      const day = i + 1;
+                      const isToday = day === 17;
+                      const isEvent = day === 15 || day === 24;
+
+                      return (
+                        <div 
+                          key={day} 
+                          className={cn(
+                            "flex h-9 w-9 items-center justify-center rounded-xl text-xs font-bold transition-all cursor-pointer relative mx-auto",
+                            isToday ? "bg-primary text-primary-foreground shadow-xl shadow-primary/30 scale-110 z-10" : "hover:bg-secondary/80 text-foreground",
+                            isEvent && !isToday && "text-primary border border-primary/20 bg-primary/5"
+                          )}
+                        >
+                          {day}
+                          {isEvent && !isToday && (
+                            <div className="absolute top-1 right-1 h-1 w-1 rounded-full bg-primary" />
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                </div>
             </CardContent>
          </Card>

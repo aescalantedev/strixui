@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
 import { cookies } from "next/headers";
@@ -8,7 +8,10 @@ import { AppSidebar } from "@/components/layout/AppSidebar";
 import { AppTopbar } from "@/components/layout/AppTopbar";
 import { ThemeProvider } from "@/components/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const fontSans = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+});
 
 export const metadata: Metadata = {
   title: "Strix UI - Premium Dashboard Template",
@@ -26,7 +29,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning data-color-theme={colorTheme}>
-      <body className={`${inter.className} antialiased selection:bg-primary/10 selection:text-primary`}>
+      <body className={`${fontSans.variable} font-sans antialiased selection:bg-primary/10 selection:text-primary`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <SidebarProvider defaultOpen={defaultOpen}>
             <div className="flex min-h-screen w-full bg-background">

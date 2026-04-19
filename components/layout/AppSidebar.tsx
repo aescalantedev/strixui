@@ -104,7 +104,7 @@ const navigationGroups = [
         items: [
           { title: "Login", url: "/auth/login", icon: Lock },
           { title: "Register", url: "/auth/register", icon: UserCircle },
-          { title: "Forgot Password", url: "/auth/forgot", icon: AlertCircle },
+          { title: "Forgot Password", url: "/auth/forgot-password", icon: AlertCircle },
         ]
       },
       { 
