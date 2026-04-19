@@ -244,10 +244,10 @@ export default function AddUserPage() {
                 <div className="grid grid-cols-2 gap-4 w-full mt-8 border-t border-border/30 pt-6">
                    <div className="text-center">
                       <p className="text-[10px] font-black text-muted-foreground uppercase opacity-60">Status</p>
-                      <p className="text-xs font-bold text-emerald-500 uppercase mt-1 flex items-center justify-center gap-1">
+                      <div className="text-xs font-bold text-emerald-500 uppercase mt-1 flex items-center justify-center gap-1">
                          <div className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
                          Active
-                      </p>
+                      </div>
                    </div>
                    <div className="text-center border-l border-border/30">
                       <p className="text-[10px] font-black text-muted-foreground uppercase opacity-60">Member</p>
