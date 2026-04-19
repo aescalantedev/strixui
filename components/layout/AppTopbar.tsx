@@ -1,7 +1,8 @@
 "use client";
 
-import { Search, Bell, Sun, Moon } from "lucide-react";
+import { Search, Bell, Sun, Moon, CreditCard } from "lucide-react";
 import { useTheme } from "next-themes";
+import Link from "next/link";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -39,6 +40,14 @@ export function AppTopbar() {
         </div>
 
         <div className="ml-auto flex items-center gap-2">
+          {/* Botón Pricing Pro */}
+          <Button variant="ghost" size="sm" asChild className="hidden md:flex h-9 rounded-xl px-4 gap-2 text-primary font-bold hover:bg-primary/5 hover:text-primary transition-all">
+            <Link href="/pricing">
+              <CreditCard className="h-4 w-4" />
+              <span className="text-[10px] uppercase tracking-[0.15em]">Pricing</span>
+            </Link>
+          </Button>
+
           {/* Selector de Color de Tema */}
           <ThemeColorToggle />
 

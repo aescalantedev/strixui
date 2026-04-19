@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 
 export default function Error500Page() {
   return (
-    <div className="min-h-[100dvh] w-full flex flex-col items-center justify-center p-6 bg-background relative z-[100] font-sans selection:bg-primary/10 selection:text-primary">
+    <div className="w-full py-20 flex flex-col items-center justify-center p-6 font-sans selection:bg-primary/10 selection:text-primary">
       
       {/* BRANDING LOGO (SUTILE) */}
       <div className="absolute top-10 flex items-center justify-center w-full pointer-events-none opacity-20">

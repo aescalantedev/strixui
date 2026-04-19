@@ -27,7 +27,10 @@ import {
   PanelTop,
   TextCursorInput,
   Table,
-  BarChart3
+  BarChart3,
+  Layers,
+  CreditCard,
+  Kanban
   } from "lucide-react";
 import {
   Sidebar,
@@ -81,6 +84,7 @@ const navigationGroups = [
         ]
       },
       { title: "Messages", url: "/messages", icon: MessagesSquare },
+      { title: "Kanban", url: "/applications/kanban", icon: Kanban },
     ],
   },
   {
@@ -92,6 +96,7 @@ const navigationGroups = [
       { title: "Advanced Tables", url: "/components/tables", icon: Table },
       { title: "Charts & Graphs", url: "/components/charts", icon: BarChart3 },
       { title: "Icons", url: "/components/icons", icon: Shapes },
+      { title: "Modals & Overlays", url: "/components/overlays", icon: Layers },
     ],
   },
   {
@@ -107,6 +112,7 @@ const navigationGroups = [
           { title: "Forgot Password", url: "/auth/forgot-password", icon: AlertCircle },
         ]
       },
+      { title: "Pricing", url: "/pricing", icon: CreditCard },
       { 
         title: "Error Pages", 
         icon: Files, 

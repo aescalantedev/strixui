@@ -7,6 +7,7 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/AppSidebar";
 import { AppTopbar } from "@/components/layout/AppTopbar";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 const fontSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -52,6 +53,7 @@ export default async function RootLayout({
                 </footer>
               </SidebarInset>
             </div>
+            <Toaster position="top-right" richColors closeButton />
           </SidebarProvider>
         </ThemeProvider>
       </body>
