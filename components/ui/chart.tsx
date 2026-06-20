@@ -2,6 +2,11 @@
 
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
+import type { TooltipContentProps } from "recharts"
+import type {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent"
 
 import { cn } from "@/lib/utils"
 
@@ -130,13 +135,14 @@ const ChartTooltip = RechartsPrimitive.Tooltip
 
 const ChartTooltipContent = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<typeof RechartsPrimitive.Tooltip> & {
-    hideLabel?: boolean
-    hideIndicator?: boolean
-    indicator?: "line" | "dot" | "dashed"
-    nameKey?: string
-    labelKey?: string
-  }
+  React.ComponentProps<"div"> &
+    Partial<TooltipContentProps<ValueType, NameType>> & {
+      hideLabel?: boolean
+      hideIndicator?: boolean
+      indicator?: "line" | "dot" | "dashed"
+      nameKey?: string
+      labelKey?: string
+    }
 >(
   (
     {
@@ -174,7 +180,7 @@ const ChartTooltipContent = React.forwardRef<
             const indicatorColor = color || item.payload.fill || item.color
 
             return (
-              <div key={item.dataKey} className="flex w-full flex-wrap items-center gap-2">
+              <div key={key} className="flex w-full flex-wrap items-center gap-2">
                 <div
                   className={cn(
                     "shrink-0 rounded-[2px]",
