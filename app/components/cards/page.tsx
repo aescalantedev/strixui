@@ -21,7 +21,6 @@ import {
   Zap,
   ChevronLeft,
   ChevronRight,
-  Github,
   Mail
 } from "lucide-react";
 import { 
